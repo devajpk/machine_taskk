@@ -15,7 +15,7 @@ class NetworkService {
     try {
       final res = await _dio.get(path, queryParameters: queryParameters);
       return res;
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       _handleDioError(e);
       rethrow;
     }
@@ -27,7 +27,7 @@ class NetworkService {
       final res =
           await _dio.post(path, data: data, queryParameters: queryParameters);
       return res;
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       _handleDioError(e);
       rethrow;
     }
@@ -39,7 +39,7 @@ class NetworkService {
       final res =
           await _dio.put(path, data: data, queryParameters: queryParameters);
       return res;
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       _handleDioError(e);
       rethrow;
     }
@@ -51,7 +51,7 @@ class NetworkService {
       final res =
           await _dio.delete(path, data: data, queryParameters: queryParameters);
       return res;
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       _handleDioError(e);
       rethrow;
     }
@@ -59,8 +59,7 @@ class NetworkService {
 
   Never _handleDioError(DioError e) {
     logger.e('NetworkService DioError: ${e.message}');
-    if (e.type == DioErrorType.connectTimeout ||
-        e.type == DioErrorType.sendTimeout ||
+    if (e.type == DioErrorType.sendTimeout ||
         e.type == DioErrorType.receiveTimeout) {
       throw SocketException('Timeout');
     }
@@ -72,6 +71,6 @@ class NetworkService {
       throw ServerException('Status: $status');
     }
 
-    throw UnknownException(e.message);
+    throw UnknownException(e.message ?? "Unknown DioError");
   }
 }

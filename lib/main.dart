@@ -6,7 +6,9 @@ import 'injection/injection.dart';
 import 'features/profiles/presentation/bloc/profile_bloc.dart';
 import 'features/profiles/data/profile_repository_impl.dart';
 import 'features/profiles/domain/entities/workspace_profile.dart';
-import 'features/dashboard/presentation/pages/dashboard_page.dart';
+import 'features/global_events/presentation/bloc/global_event_bloc.dart';
+import 'features/global_events/data/global_event_repository_impl.dart';
+import 'core/routing/app_router.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,7 +20,10 @@ Future<void> main() async {
 
   runApp(MultiBlocProvider(
     providers: [
-      BlocProvider(create: (_) => ProfileBloc(profileRepo)..add(LoadProfileEvent())),
+      BlocProvider(
+          create: (_) => ProfileBloc(profileRepo)..add(LoadProfileEvent())),
+      BlocProvider(
+          create: (_) => GlobalEventBloc(getIt<GlobalEventRepository>())),
     ],
     child: MyApp(initialProfile: initialProfile),
   ));
@@ -32,7 +37,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       title: 'Multi Profile Workspace Engine',
-      routerConfig: DashboardPage.router,
+      routerConfig: AppRouter.router,
       theme: ThemeData(useMaterial3: true),
     );
   }

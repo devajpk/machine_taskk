@@ -3,16 +3,8 @@ import 'package:go_router/go_router.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:machine_taskk/features/profiles/presentation/widgets/profile_switcher.dart';
-import 'package:machine_taskk/features/todos/presentation/pages/todos_page.dart';
 
 class DashboardPage extends StatelessWidget {
-  static final router = GoRouter(
-    routes: [
-      GoRoute(path: '/', builder: (ctx, state) => DashboardPage()),
-      GoRoute(path: '/todos', builder: (ctx, state) => TodosPage()),
-    ],
-  );
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,10 +16,21 @@ class DashboardPage extends StatelessWidget {
           children: [
             ProfileSwitcher(),
             const SizedBox(height: 24),
+            Text(
+              'Quick Actions',
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            const SizedBox(height: 16),
             ElevatedButton.icon(
               onPressed: () => GoRouter.of(context).push('/todos'),
               icon: const Icon(Icons.list),
-              label: const Text('Open Todos'),
+              label: const Text('My Todos'),
+            ),
+            const SizedBox(height: 12),
+            ElevatedButton.icon(
+              onPressed: () => GoRouter.of(context).push('/events'),
+              icon: const Icon(Icons.public),
+              label: const Text('Global Events'),
             ),
           ],
         ),

@@ -14,5 +14,5 @@ class LoggerService {
   void d(String message) => _logger.d(message);
   void w(String message) => _logger.w(message);
   void e(String message, [dynamic error, StackTrace? stackTrace]) =>
-      _logger.e(message, error, stackTrace);
+      _logger.e(message, error: error, stackTrace: stackTrace);
 }
