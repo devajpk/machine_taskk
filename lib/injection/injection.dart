@@ -39,7 +39,7 @@ Future<void> initDependencies() async {
 
   // Global Events
   getIt.registerLazySingleton<GlobalEventService>(
-      () => GlobalEventService(getIt()));
+      () => GlobalEventService(getIt<NetworkService>(), getIt<NetworkInfo>()));
   getIt.registerLazySingleton<GlobalEventRepository>(
       () => GlobalEventRepositoryImpl(getIt()));
 }
