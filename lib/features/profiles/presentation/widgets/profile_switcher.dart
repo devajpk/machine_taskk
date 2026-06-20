@@ -4,6 +4,8 @@ import '../bloc/profile_bloc.dart';
 import '../../domain/entities/workspace_profile.dart';
 
 class ProfileSwitcher extends StatelessWidget {
+  const ProfileSwitcher({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileBloc, ProfileState>(builder: (context, state) {

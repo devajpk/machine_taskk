@@ -1,30 +1,37 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:machine_taskk/main.dart';
+import 'package:machine_taskk/features/dashboard/presentation/pages/dashboard_page.dart';
+import 'package:machine_taskk/features/profiles/data/profile_repository_impl.dart';
+import 'package:machine_taskk/features/profiles/domain/entities/workspace_profile.dart';
+import 'package:machine_taskk/features/profiles/presentation/bloc/profile_bloc.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
-
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
-
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
+  testWidgets('Dashboard smoke test', (WidgetTester tester) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: BlocProvider(
+          create: (_) =>
+              ProfileBloc(_FakeProfileRepository())..add(LoadProfileEvent()),
+          child: const DashboardPage(),
+        ),
+      ),
+    );
     await tester.pump();
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    expect(find.text('Multi Profile Workspace Engine'), findsOneWidget);
+    expect(find.text('Quick Actions'), findsOneWidget);
   });
+}
+
+class _FakeProfileRepository implements ProfileRepository {
+  WorkspaceProfile _profile = WorkspaceProfile.personal;
+
+  @override
+  Future<WorkspaceProfile> getCurrentProfile() async => _profile;
+
+  @override
+  Future<void> saveProfile(WorkspaceProfile profile) async {
+    _profile = profile;
+  }
 }
