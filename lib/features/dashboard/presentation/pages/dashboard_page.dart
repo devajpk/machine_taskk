@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../../profiles/domain/entities/workspace_profile.dart';
-import '../../profiles/presentation/bloc/profile_bloc.dart';
-import '../../profiles/presentation/widgets/profile_switcher.dart';
-import '../../todos/presentation/pages/todos_page.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:machine_taskk/features/profiles/presentation/widgets/profile_switcher.dart';
+import 'package:machine_taskk/features/todos/presentation/pages/todos_page.dart';
 
 class DashboardPage extends StatelessWidget {
   static final router = GoRouter(

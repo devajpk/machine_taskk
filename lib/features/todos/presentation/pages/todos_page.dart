@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:machine_taskk/features/profiles/domain/entities/workspace_profile.dart';
+import 'package:machine_taskk/features/profiles/presentation/bloc/profile_bloc.dart';
 import '../../presentation/bloc/todo_bloc.dart';
 import '../../data/todo_repository_impl.dart';
 import '../../domain/entities/todo.dart';
