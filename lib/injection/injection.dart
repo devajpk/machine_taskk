@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:machine_taskk/core/analytics/analytics_service.dart';
+import 'package:machine_taskk/core/crash_lytics/crashlytics_service.dart';
 
 import '../core/logger/logger_service.dart';
 import '../core/network/network_info.dart';
@@ -42,4 +44,17 @@ Future<void> initDependencies() async {
       () => GlobalEventService(getIt<NetworkService>(), getIt<NetworkInfo>()));
   getIt.registerLazySingleton<GlobalEventRepository>(
       () => GlobalEventRepositoryImpl(getIt()));
+      // Analytics
+getIt.registerLazySingleton<AnalyticsService>(
+  () => AnalyticsService(
+    getIt<LoggerService>(),
+  ),
+);
+
+// Crashlytics
+getIt.registerLazySingleton<CrashlyticsService>(
+  () => CrashlyticsService(
+    getIt<LoggerService>(),
+  ),
+);
 }

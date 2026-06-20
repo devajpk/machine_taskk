@@ -1,8 +1,7 @@
 /// Application environment configuration
 abstract class AppConfig {
   /// API base URL
-  static const String apiBaseUrl =
-      'https://jsonplaceholder.typicode.com';
+  static const String apiBaseUrl = 'https://jsonplaceholder.typicode.com';
 
   /// API timeout in seconds
   static const int apiTimeoutSeconds = 10;
@@ -14,7 +13,7 @@ abstract class AppConfig {
   static const bool enableAnalytics = true;
 
   /// Enable Firebase crashlytics
-  static const bool enableCrashlytics = false;
+  static const bool enableCrashlytics = true;
 
   /// Default authorization header prefix
   static const String authHeaderPrefix = 'Bearer';

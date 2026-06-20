@@ -55,6 +55,7 @@ dependencies:
   either_dart: ^1.0.0
   logger: ^2.7.0
   uuid: ^4.3.0
+  firebase_core: ^4.11.0
 
 dev_dependencies:
   flutter_test:

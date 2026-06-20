@@ -1,8 +1,10 @@
 part of 'profile_bloc.dart';
 
 abstract class ProfileState extends Equatable {
-  @override
-  List<Object?> get props => [];
+const ProfileState();
+
+@override
+List<Object?> get props => [];
 }
 
 class ProfileInitial extends ProfileState {}
@@ -10,9 +12,19 @@ class ProfileInitial extends ProfileState {}
 class ProfileLoading extends ProfileState {}
 
 class ProfileLoaded extends ProfileState {
-  final WorkspaceProfile profile;
-  ProfileLoaded(this.profile);
+final WorkspaceProfile profile;
 
-  @override
-  List<Object?> get props => [profile];
+const ProfileLoaded(this.profile);
+
+@override
+List<Object?> get props => [profile];
+}
+
+class ProfileError extends ProfileState {
+final String message;
+
+const ProfileError(this.message);
+
+@override
+List<Object?> get props => [message];
 }
