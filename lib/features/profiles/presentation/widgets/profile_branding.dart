@@ -85,7 +85,6 @@ extension WorkspaceProfileBranding on WorkspaceProfile {
           accentGradient: const [Color(0xFF4A90E2), Color(0xFF50E3C2)],
         );
       case WorkspaceProfile.personal:
-      default:
         return ProfileBranding(
           backgroundColor: const Color(0xFFF1F5FB),
           surfaceColor: Colors.white,
