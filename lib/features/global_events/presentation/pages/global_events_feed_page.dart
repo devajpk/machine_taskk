@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:machine_taskk/features/global_events/presentation/bloc/global_event_bloc.dart';
+import 'package:machine_taskk/features/global_events/presentation/widgets/cached_event_image.dart';
 
 class GlobalEventsFeedPage extends StatefulWidget {
   @override
@@ -49,14 +49,12 @@ class _GlobalEventsFeedPageState extends State<GlobalEventsFeedPage> {
                 return Card(
                   margin: EdgeInsets.all(8),
                   child: ListTile(
-                    leading: CachedNetworkImage(
+                    leading: CachedEventImage(
                       imageUrl: event.imageUrl,
                       width: 60,
                       height: 60,
                       fit: BoxFit.cover,
-                      placeholder: (context, url) =>
-                          CircularProgressIndicator(),
-                      errorWidget: (context, url, error) => Icon(Icons.error),
+                      borderRadius: BorderRadius.circular(8),
                     ),
                     title: Text(event.title, maxLines: 1),
                     subtitle: Text(

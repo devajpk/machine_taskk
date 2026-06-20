@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:machine_taskk/features/global_events/domain/entities/global_event.dart';
+import 'package:machine_taskk/features/global_events/presentation/widgets/cached_event_image.dart';
 
 class EventDetailsPage extends StatelessWidget {
   final GlobalEvent event;
@@ -21,16 +21,9 @@ class EventDetailsPage extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               height: 300,
-              child: CachedNetworkImage(
+              child: CachedEventImage(
                 imageUrl: event.imageUrl,
                 fit: BoxFit.cover,
-                placeholder: (context, url) => Center(
-                  child: CircularProgressIndicator(),
-                ),
-                errorWidget: (context, url, error) => Container(
-                  color: Colors.grey[300],
-                  child: Icon(Icons.error),
-                ),
               ),
             ),
             Padding(
