@@ -19,13 +19,14 @@ Future<void> initDependencies() async {
 
   // Dio
   getIt.registerLazySingleton<Dio>(() {
-    final dio = Dio(BaseOptions(baseUrl: 'https://jsonplaceholder.typicode.com'));
-    dio.options.connectTimeout = 10000;
-    dio.options.receiveTimeout = 10000;
+    final dio =
+        Dio(BaseOptions(baseUrl: 'https://jsonplaceholder.typicode.com'));
+    
     dio.interceptors.add(AuthInterceptor(getIt(), getIt()));
     return dio;
   });
 
   // NetworkService
-  getIt.registerLazySingleton<NetworkService>(() => NetworkService(getIt(), getIt()));
+  getIt.registerLazySingleton<NetworkService>(
+      () => NetworkService(getIt(), getIt()));
 }

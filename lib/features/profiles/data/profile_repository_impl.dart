@@ -1,5 +1,5 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import '../../domain/entities/workspace_profile.dart';
+import 'package:machine_taskk/features/profiles/domain/entities/workspace_profile.dart';
 
 abstract class ProfileRepository {
   Future<WorkspaceProfile> getCurrentProfile();
@@ -16,7 +16,8 @@ class ProfileRepositoryImpl implements ProfileRepository {
   Future<WorkspaceProfile> getCurrentProfile() async {
     final box = await _openBox();
     final raw = box.get(_key, defaultValue: 'personal') as String;
-    return WorkspaceProfile.values.firstWhere((e) => e.key == raw, orElse: () => WorkspaceProfile.personal);
+    return WorkspaceProfile.values.firstWhere((e) => e.key == raw,
+        orElse: () => WorkspaceProfile.personal);
   }
 
   @override

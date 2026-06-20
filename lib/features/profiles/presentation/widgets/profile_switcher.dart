@@ -18,7 +18,8 @@ class ProfileSwitcher extends StatelessWidget {
                 label: Text(p.key),
                 selected: selected,
                 onSelected: (sel) {
-                  if (sel) context.read<ProfileBloc>().add(SwitchProfileEvent(p));
+                  if (sel)
+                    context.read<ProfileBloc>().add(SwitchProfileEvent(p));
                 },
               ),
             );

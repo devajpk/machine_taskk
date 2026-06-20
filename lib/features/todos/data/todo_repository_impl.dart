@@ -1,5 +1,5 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import '../../domain/entities/todo.dart';
+import '../domain/entities/todo.dart';
 import '../../profiles/domain/entities/workspace_profile.dart';
 import 'package:uuid/uuid.dart';
 
@@ -33,7 +33,9 @@ class TodoRepositoryImpl implements TodoRepository {
   @override
   Future<List<Todo>> getTodos(WorkspaceProfile profile) async {
     final box = await _openBox(_boxNameFor(profile));
-    final list = box.values.map((e) => Todo.fromMap(Map<String, dynamic>.from(e))).toList();
+    final list = box.values
+        .map((e) => Todo.fromMap(Map<String, dynamic>.from(e)))
+        .toList();
     list.sort((a, b) => b.createdAt.compareTo(a.createdAt));
     return list;
   }

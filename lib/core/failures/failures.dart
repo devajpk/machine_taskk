@@ -16,7 +16,8 @@ class CacheFailure extends Failure {
 }
 
 class UnauthorizedFailure extends Failure {
-  const UnauthorizedFailure([String message = 'UnauthorizedFailure']) : super(message);
+  const UnauthorizedFailure([String message = 'UnauthorizedFailure'])
+      : super(message);
 }
 
 class UnknownFailure extends Failure {

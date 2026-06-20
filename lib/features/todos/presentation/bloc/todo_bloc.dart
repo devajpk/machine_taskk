@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:machine_taskk/features/profiles/domain/entities/workspace_profile.dart';
 import '../../domain/entities/todo.dart';
 import '../../data/todo_repository_impl.dart';
-import '../../profiles/domain/entities/workspace_profile.dart';
-
+i
 part 'todo_event.dart';
 part 'todo_state.dart';
 
@@ -11,7 +11,8 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
   final TodoRepository repository;
   final WorkspaceProfile profile;
 
-  TodoBloc({required this.repository, required this.profile}) : super(TodoLoading()) {
+  TodoBloc({required this.repository, required this.profile})
+      : super(TodoLoading()) {
     on<LoadTodosEvent>((e, emit) async {
       emit(TodoLoading());
       final todos = await repository.getTodos(profile);

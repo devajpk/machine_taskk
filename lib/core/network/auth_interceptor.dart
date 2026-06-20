@@ -9,7 +9,8 @@ class AuthInterceptor extends Interceptor {
   AuthInterceptor(this.secureStorage, this.logger);
 
   @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+  void onRequest(
+      RequestOptions options, RequestInterceptorHandler handler) async {
     try {
       final token = await secureStorage.read(key: 'auth_token');
       if (token != null && token.isNotEmpty) {

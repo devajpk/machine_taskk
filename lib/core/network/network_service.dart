@@ -10,7 +10,8 @@ class NetworkService {
 
   NetworkService(this._dio, this.logger);
 
-  Future<Response> get(String path, {Map<String, dynamic>? queryParameters}) async {
+  Future<Response> get(String path,
+      {Map<String, dynamic>? queryParameters}) async {
     try {
       final res = await _dio.get(path, queryParameters: queryParameters);
       return res;
@@ -20,9 +21,11 @@ class NetworkService {
     }
   }
 
-  Future<Response> post(String path, {data, Map<String, dynamic>? queryParameters}) async {
+  Future<Response> post(String path,
+      {data, Map<String, dynamic>? queryParameters}) async {
     try {
-      final res = await _dio.post(path, data: data, queryParameters: queryParameters);
+      final res =
+          await _dio.post(path, data: data, queryParameters: queryParameters);
       return res;
     } on DioError catch (e) {
       _handleDioError(e);
@@ -30,9 +33,11 @@ class NetworkService {
     }
   }
 
-  Future<Response> put(String path, {data, Map<String, dynamic>? queryParameters}) async {
+  Future<Response> put(String path,
+      {data, Map<String, dynamic>? queryParameters}) async {
     try {
-      final res = await _dio.put(path, data: data, queryParameters: queryParameters);
+      final res =
+          await _dio.put(path, data: data, queryParameters: queryParameters);
       return res;
     } on DioError catch (e) {
       _handleDioError(e);
@@ -40,9 +45,11 @@ class NetworkService {
     }
   }
 
-  Future<Response> delete(String path, {data, Map<String, dynamic>? queryParameters}) async {
+  Future<Response> delete(String path,
+      {data, Map<String, dynamic>? queryParameters}) async {
     try {
-      final res = await _dio.delete(path, data: data, queryParameters: queryParameters);
+      final res =
+          await _dio.delete(path, data: data, queryParameters: queryParameters);
       return res;
     } on DioError catch (e) {
       _handleDioError(e);
@@ -52,7 +59,9 @@ class NetworkService {
 
   Never _handleDioError(DioError e) {
     logger.e('NetworkService DioError: ${e.message}');
-    if (e.type == DioErrorType.connectTimeout || e.type == DioErrorType.sendTimeout || e.type == DioErrorType.receiveTimeout) {
+    if (e.type == DioErrorType.connectTimeout ||
+        e.type == DioErrorType.sendTimeout ||
+        e.type == DioErrorType.receiveTimeout) {
       throw SocketException('Timeout');
     }
 
