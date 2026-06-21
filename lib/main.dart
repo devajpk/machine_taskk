@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:machine_taskk/core/crash_lytics/crashlytics_service.dart';
+import 'package:machine_taskk/features/global_events/domain/repo/repo.dart';
 import 'package:machine_taskk/firebase_options.dart';
 
 import 'injection/injection.dart';
@@ -16,7 +17,6 @@ import 'features/profiles/data/profile_repository_impl.dart';
 import 'features/profiles/domain/entities/workspace_profile.dart';
 
 import 'features/global_events/presentation/bloc/global_event_bloc.dart';
-import 'features/global_events/data/global_event_repository_impl.dart';
 
 import 'core/routing/app_router.dart';
 

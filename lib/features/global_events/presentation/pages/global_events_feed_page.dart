@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:machine_taskk/features/global_events/presentation/bloc/global_event_bloc.dart';
 import 'package:machine_taskk/features/global_events/presentation/widgets/cached_event_image.dart';
+import 'package:machine_taskk/features/global_events/presentation/widgets/global_events_shimmer.dart';
 
 class GlobalEventsFeedPage extends StatefulWidget {
   @override
@@ -32,9 +33,9 @@ class _GlobalEventsFeedPageState extends State<GlobalEventsFeedPage> {
       ),
       body: BlocBuilder<GlobalEventBloc, GlobalEventState>(
         builder: (context, state) {
-          if (state is GlobalEventLoading) {
-            return Center(child: CircularProgressIndicator());
-          }
+         if (state is GlobalEventLoading) {
+  return const GlobalEventsShimmer();
+}
 
           if (state is GlobalEventLoaded) {
             final events = state.events;

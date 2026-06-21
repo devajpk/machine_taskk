@@ -1,12 +1,11 @@
-import 'package:machine_taskk/features/global_events/data/global_event_service.dart';
+import 'package:machine_taskk/features/global_events/data/remote_data_source/remote_data_sorce.dart';
 import 'package:machine_taskk/features/global_events/domain/entities/global_event.dart';
+import 'package:machine_taskk/features/global_events/domain/repo/repo.dart';
 
-abstract class GlobalEventRepository {
-  Future<List<GlobalEvent>> getEvents();
-}
+
 
 class GlobalEventRepositoryImpl implements GlobalEventRepository {
-  final GlobalEventService service;
+  final GlobalEventRemoteDataSource service;
 
   GlobalEventRepositoryImpl(this.service);
 

@@ -3,11 +3,11 @@ import 'package:machine_taskk/core/network/network_info.dart';
 import 'package:machine_taskk/core/network/network_service.dart';
 import 'package:machine_taskk/features/global_events/domain/entities/global_event.dart';
 
-class GlobalEventService {
+class GlobalEventRemoteDataSource {
   final NetworkService networkService;
   final NetworkInfo networkInfo;
 
-  GlobalEventService(
+  GlobalEventRemoteDataSource(
     this.networkService,
     this.networkInfo,
   );
@@ -44,8 +44,7 @@ class GlobalEventService {
       /// JSONPlaceholder returns URLs from via.placeholder.com
       /// which currently fails SSL handshakes on many networks.
       /// We replace them with stable Picsum images.
-      final String imageUrl =
-          'https://picsum.photos/seed/$photoId/600/600';
+      final String imageUrl = 'https://picsum.photos/seed/$photoId/600/600';
 
       debugPrint('---------------------------------');
       debugPrint('Event ID: $photoId');

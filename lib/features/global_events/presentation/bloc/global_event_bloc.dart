@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:machine_taskk/features/global_events/domain/entities/global_event.dart';
-import 'package:machine_taskk/features/global_events/data/global_event_repository_impl.dart';
+import 'package:machine_taskk/features/global_events/domain/repo/repo.dart';
 
 part 'global_event_event.dart';
 part 'global_event_state.dart';

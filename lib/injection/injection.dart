@@ -4,6 +4,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:machine_taskk/core/analytics/analytics_service.dart';
 import 'package:machine_taskk/core/crash_lytics/crashlytics_service.dart';
+import 'package:machine_taskk/features/global_events/domain/repo/repo.dart';
 
 import '../core/logger/logger_service.dart';
 import '../core/network/network_info.dart';
@@ -11,8 +12,8 @@ import '../core/network/auth_interceptor.dart';
 import '../core/network/network_service.dart';
 import '../core/config/app_config.dart';
 import '../core/security/secure_token_service.dart';
-import '../features/global_events/data/global_event_service.dart';
-import '../features/global_events/data/global_event_repository_impl.dart';
+import '../features/global_events/data/remote_data_source/remote_data_sorce.dart';
+import '../features/global_events/data/repo_imp.dart/global_event_repository_impl.dart';
 
 final getIt = GetIt.instance;
 
@@ -40,21 +41,22 @@ Future<void> initDependencies() async {
       () => NetworkService(getIt(), getIt()));
 
   // Global Events
-  getIt.registerLazySingleton<GlobalEventService>(
-      () => GlobalEventService(getIt<NetworkService>(), getIt<NetworkInfo>()));
+  getIt.registerLazySingleton<GlobalEventRemoteDataSource>(() =>
+      GlobalEventRemoteDataSource(
+          getIt<NetworkService>(), getIt<NetworkInfo>()));
   getIt.registerLazySingleton<GlobalEventRepository>(
       () => GlobalEventRepositoryImpl(getIt()));
-      // Analytics
-getIt.registerLazySingleton<AnalyticsService>(
-  () => AnalyticsService(
-    getIt<LoggerService>(),
-  ),
-);
+  // Analytics
+  getIt.registerLazySingleton<AnalyticsService>(
+    () => AnalyticsService(
+      getIt<LoggerService>(),
+    ),
+  );
 
 // Crashlytics
-getIt.registerLazySingleton<CrashlyticsService>(
-  () => CrashlyticsService(
-    getIt<LoggerService>(),
-  ),
-);
+  getIt.registerLazySingleton<CrashlyticsService>(
+    () => CrashlyticsService(
+      getIt<LoggerService>(),
+    ),
+  );
 }
