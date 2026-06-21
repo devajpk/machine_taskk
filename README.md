@@ -531,6 +531,11 @@ Successful crash logging:
 * Clean Architecture
 
 ---
+Networking is implemented using Dio with custom request/response interceptors for logging, authentication and centralized error handling.
+
+A NetworkService abstraction sits on top of Dio and is consumed by repositories through data sources.
+
+The architecture is Retrofit-ready, but Retrofit was not introduced because the project currently exposes only a small API surface and manual service implementations kept the networking layer lightweight.
 
 # License
 
