@@ -1,10 +1,8 @@
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:machine_taskk/features/profiles/domain/entities/workspace_profile.dart';
+import 'package:machine_taskk/features/profiles/domain/repo/profile_repo.dart';
 
-abstract class ProfileRepository {
-  Future<WorkspaceProfile> getCurrentProfile();
-  Future<void> saveProfile(WorkspaceProfile profile);
-}
+
 
 class ProfileRepositoryImpl implements ProfileRepository {
   static const _boxName = 'profiles_box';

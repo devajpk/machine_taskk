@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:machine_taskk/features/profiles/domain/repo/profile_repo.dart';
 
 import '../../domain/entities/workspace_profile.dart';
-import '../../data/profile_repository_impl.dart';
 
 import '../../../../core/analytics/analytics_service.dart';
 
