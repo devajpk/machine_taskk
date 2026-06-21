@@ -1,14 +1,11 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import '../domain/entities/todo.dart';
-import '../../profiles/domain/entities/workspace_profile.dart';
+import 'package:machine_taskk/features/profiles/domain/entities/workspace_profile.dart';
+import 'package:machine_taskk/features/todos/domain/entities/todo.dart';
+import 'package:machine_taskk/features/todos/domain/repo/todo_repositories.dart';
+
 import 'package:uuid/uuid.dart';
 
-abstract class TodoRepository {
-  Future<List<Todo>> getTodos(WorkspaceProfile profile);
-  Future<void> addTodo(WorkspaceProfile profile, Todo todo);
-  Future<void> deleteTodo(WorkspaceProfile profile, String id);
-  Future<void> updateTodo(WorkspaceProfile profile, Todo todo);
-}
+
 
 class TodoRepositoryImpl implements TodoRepository {
   final _uuid = Uuid();

@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:machine_taskk/features/profiles/domain/entities/workspace_profile.dart';
 import 'package:machine_taskk/features/profiles/presentation/bloc/profile_bloc.dart';
+import 'package:machine_taskk/features/todos/data/repo_imp/todo_repository_impl.dart';
+import 'package:machine_taskk/features/todos/presentation/widget/add_todo_bar.dart';
+import 'package:machine_taskk/features/todos/presentation/widget/colors.dart';
+import 'package:machine_taskk/features/todos/presentation/widget/empty_state.dart';
+import 'package:machine_taskk/features/todos/presentation/widget/error_state.dart';
+import 'package:machine_taskk/features/todos/presentation/widget/header.dart';
+import 'package:machine_taskk/features/todos/presentation/widget/todo_row.dart';
 import '../../presentation/bloc/todo_bloc.dart';
-import '../../data/todo_repository_impl.dart';
-import '../../domain/entities/todo.dart';
 
-import 'package:uuid/uuid.dart';
+
+
 
 class TodosPage extends StatelessWidget {
-  final _uuid = Uuid();
+  const TodosPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,82 +28,73 @@ class TodosPage extends StatelessWidget {
       create: (_) =>
           TodoBloc(repository: TodoRepositoryImpl(), profile: profile)
             ..add(LoadTodosEvent()),
-      child: Scaffold(
-        appBar: AppBar(title: const Text('Todos')),
-        body: Column(
-          children: [
-            Expanded(child:
-                BlocBuilder<TodoBloc, TodoState>(builder: (context, state) {
-              if (state is TodoLoading)
-                return const Center(child: CircularProgressIndicator());
-              if (state is TodoLoaded) {
-                final todos = state.todos;
-                if (todos.isEmpty) return const Center(child: Text('No todos'));
-                return ListView.builder(
-                  itemCount: todos.length,
-                  itemBuilder: (context, index) {
-                    final t = todos[index];
-                    return ListTile(
-                      title: Text(t.title),
-                      leading: Checkbox(
-                          value: t.isCompleted,
-                          onChanged: (_) =>
-                              context.read<TodoBloc>().add(ToggleTodoEvent(t))),
-                      trailing: IconButton(
-                          icon: const Icon(Icons.delete),
-                          onPressed: () => context
-                              .read<TodoBloc>()
-                              .add(DeleteTodoEvent(t.id))),
-                    );
-                  },
-                );
-              }
-              if (state is TodoError) return Center(child: Text(state.message));
-              return const SizedBox.shrink();
-            })),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Expanded(child: _AddTodoField()),
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
+      child: const _TodosView(),
     );
   }
 }
 
-class _AddTodoField extends StatefulWidget {
-  @override
-  State<_AddTodoField> createState() => _AddTodoFieldState();
-}
-
-class _AddTodoFieldState extends State<_AddTodoField> {
-  final _controller = TextEditingController();
-  final _uuid = Uuid();
+class _TodosView extends StatelessWidget {
+  const _TodosView();
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-            child: TextField(
-                controller: _controller,
-                decoration: const InputDecoration(hintText: 'Add todo'))),
-        IconButton(
-          icon: const Icon(Icons.add),
-          onPressed: () {
-            final text = _controller.text.trim();
-            if (text.isEmpty) return;
-            final todo = Todo(id: _uuid.v4(), title: text);
-            context.read<TodoBloc>().add(AddTodoEvent(todo));
-            _controller.clear();
-          },
-        )
-      ],
+    return Scaffold(
+      backgroundColor:Palette.background,
+      body: SafeArea(
+        child: Column(
+          children: [
+            Header(),
+            Expanded(
+              child: BlocBuilder<TodoBloc, TodoState>(
+                builder: (context, state) {
+                  if (state is TodoLoading) {
+                    return const Center(
+                      child: SizedBox(
+                        width: 22,
+                        height: 22,
+                        child: CircularProgressIndicator(
+                          color: Palette.accent,
+                          strokeWidth: 2.4,
+                        ),
+                      ),
+                    );
+                  }
+                  if (state is TodoError) {
+                    return ErrorState(message: state.message);
+                  }
+                  if (state is TodoLoaded) {
+                    final todos = state.todos;
+                    if (todos.isEmpty) return const EmptyState();
+                    return ListView.separated(
+                      padding: const EdgeInsets.fromLTRB(24, 4, 24, 110),
+                      itemCount: todos.length,
+                      separatorBuilder: (_, __) => const Divider(
+                        height: 1,
+                        thickness: 1,
+                        color: Palette.hairline,
+                      ),
+                      itemBuilder: (context, index) {
+                        final todo = todos[index];
+                        return TodoRow(
+                          key: ValueKey(todo.id),
+                          todo: todo,
+                          index: index,
+                        );
+                      },
+                    );
+                  }
+                  return const SizedBox.shrink();
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+      bottomSheet: const AddTodoBar(),
     );
   }
 }
+
+
+
+

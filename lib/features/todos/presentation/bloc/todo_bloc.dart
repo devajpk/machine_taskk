@@ -1,8 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:machine_taskk/features/profiles/domain/entities/workspace_profile.dart';
+import 'package:machine_taskk/features/todos/domain/repo/todo_repositories.dart';
 import '../../domain/entities/todo.dart';
-import '../../data/todo_repository_impl.dart';
+
 
 
 part 'todo_event.dart';
