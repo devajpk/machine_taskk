@@ -230,6 +230,7 @@ lib/
 │   └── typedefs/
 │
 ├── features/
+├── ├── dashboard/
 │   ├── profiles/
 │   ├── todos/
 │   └── global_events/
