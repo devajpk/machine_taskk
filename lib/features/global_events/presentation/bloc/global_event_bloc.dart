@@ -14,6 +14,7 @@ class GlobalEventBloc extends Bloc<GlobalEventEvent, GlobalEventState> {
       emit(GlobalEventLoading());
       try {
         final events = await repository.getEvents();
+        
         emit(GlobalEventLoaded(events));
       } catch (e) {
         emit(GlobalEventError(e.toString()));

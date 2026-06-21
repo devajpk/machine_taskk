@@ -9,17 +9,22 @@ class CachedEventImage extends StatelessWidget {
   final BorderRadius? borderRadius;
 
   const CachedEventImage({
-    Key? key,
+    super.key,
     required this.imageUrl,
     this.width,
     this.height,
     this.fit = BoxFit.cover,
     this.borderRadius,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
-    final clipped = ClipRRect(
+    debugPrint('=================================');
+    debugPrint('🖼️ CachedEventImage Build');
+    debugPrint('📍 Image URL: $imageUrl');
+    debugPrint('=================================');
+
+    return ClipRRect(
       borderRadius: borderRadius ?? BorderRadius.zero,
       clipBehavior: Clip.antiAlias,
       child: Container(
@@ -29,22 +34,49 @@ class CachedEventImage extends StatelessWidget {
         child: _buildImage(context),
       ),
     );
-
-    return clipped;
   }
 
   Widget _buildImage(BuildContext context) {
     if (imageUrl.trim().isEmpty) {
+      debugPrint('❌ Image URL is empty');
       return _buildErrorPlaceholder();
     }
+
+    debugPrint('⏳ Attempting to load image: $imageUrl');
 
     return CachedNetworkImage(
       imageUrl: imageUrl,
       width: width,
       height: height,
       fit: fit,
-      placeholder: (context, url) => const _EventImageShimmer(),
-      errorWidget: (context, url, error) => _buildErrorPlaceholder(),
+
+      placeholder: (context, url) {
+        debugPrint('⌛ Loading image from: $url');
+        return const _EventImageShimmer();
+      },
+
+      imageBuilder: (context, imageProvider) {
+        debugPrint('✅ Image loaded successfully');
+        debugPrint('📍 URL: $imageUrl');
+
+        return Image(
+          image: imageProvider,
+          fit: fit,
+          width: width,
+          height: height,
+        );
+      },
+
+      errorWidget: (context, url, error) {
+        debugPrint('=================================');
+        debugPrint('❌ IMAGE LOAD FAILED');
+        debugPrint('📍 URL: $url');
+        debugPrint('🚨 ERROR TYPE: ${error.runtimeType}');
+        debugPrint('🚨 ERROR: $error');
+        debugPrint('=================================');
+
+        return _buildErrorPlaceholder();
+      },
     );
   }
 
@@ -62,9 +94,7 @@ class CachedEventImage extends StatelessWidget {
 }
 
 class _EventImageShimmer extends StatefulWidget {
-  const _EventImageShimmer({
-    Key? key,
-  }) : super(key: key);
+  const _EventImageShimmer({super.key});
 
   @override
   State<_EventImageShimmer> createState() => _EventImageShimmerState();
@@ -77,6 +107,9 @@ class _EventImageShimmerState extends State<_EventImageShimmer>
   @override
   void initState() {
     super.initState();
+
+    debugPrint('✨ Shimmer Started');
+
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1200),
@@ -85,9 +118,12 @@ class _EventImageShimmerState extends State<_EventImageShimmer>
 
   @override
   void dispose() {
+    debugPrint('✨ Shimmer Disposed');
     _controller.dispose();
     super.dispose();
   }
+
+  double get _offset => (_controller.value * 2) - 1;
 
   @override
   Widget build(BuildContext context) {
@@ -111,6 +147,4 @@ class _EventImageShimmerState extends State<_EventImageShimmer>
       },
     );
   }
-
-  double get _offset => (_controller.value * 2) - 1;
 }
