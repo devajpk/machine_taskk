@@ -244,10 +244,8 @@ class CalendarDayCell extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.all(2),
       decoration: BoxDecoration(
-        color: isSelected
-            ? branding.selectedDayColor
-            : Colors.transparent,
-        borderRadius: BorderRadius.circular(12),
+        color: isSelected ? branding.selectedDayColor : Colors.transparent,
+        borderRadius: branding.cellBorderRadius,
         border: isToday && !isSelected
             ? Border.all(
                 color: branding.todayColor,
@@ -267,9 +265,7 @@ class CalendarDayCell extends StatelessWidget {
                 fontSize: 14,
               ),
             ),
-
             const SizedBox(height: 3),
-
             CalendarIndicators(
               counts: counts,
             ),
