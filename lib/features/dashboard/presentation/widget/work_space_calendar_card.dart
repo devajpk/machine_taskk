@@ -139,8 +139,8 @@ class _WorkspaceCalendarState extends State<WorkspaceCalendar> {
                 },
                 calendarFormat: CalendarFormat.month,
                 headerVisible: false,
-                daysOfWeekHeight: 32,
-                rowHeight: branding.dynamicScaling ? 62 : 54,
+                daysOfWeekHeight: 76,
+                rowHeight: 76,
                 onPageChanged: (focusedDay) {
                   context.read<CalendarActivityBloc>().add(
                         FocusCalendarMonthEvent(focusedDay),
@@ -167,46 +167,15 @@ class _WorkspaceCalendarState extends State<WorkspaceCalendar> {
                 calendarStyle: CalendarStyle(
                   outsideDaysVisible: false,
                   markersMaxCount: 0,
-                  cellMargin: EdgeInsets.all(branding.monochrome ? 2 : 4),
+                  cellMargin: const EdgeInsets.all(2),
                   defaultDecoration: const BoxDecoration(
-                    shape: BoxShape.rectangle,
+                    color: Colors.transparent,
                   ),
-                  weekendDecoration: const BoxDecoration(
-                    shape: BoxShape.rectangle,
+                  selectedDecoration: const BoxDecoration(
+                    color: Colors.transparent,
                   ),
-                  outsideDecoration: const BoxDecoration(
-                    shape: BoxShape.rectangle,
-                  ),
-                  disabledDecoration: const BoxDecoration(
-                    shape: BoxShape.rectangle,
-                  ),
-                  holidayDecoration: const BoxDecoration(
-                    shape: BoxShape.rectangle,
-                  ),
-                  selectedDecoration: BoxDecoration(
-                    color: branding.selectedDayColor,
-                    borderRadius: cornerRadius,
-                    shape: BoxShape.rectangle,
-                  ),
-                  todayDecoration: BoxDecoration(
-                    color: branding.todayColor.withValues(alpha: 0.18),
-                    border: Border.all(color: branding.todayColor, width: 1.4),
-                    borderRadius: cornerRadius,
-                    shape: BoxShape.rectangle,
-                  ),
-                  defaultTextStyle: TextStyle(
-                    color: branding.primaryTextColor,
-                  ),
-                  weekendTextStyle: TextStyle(
-                    color: branding.primaryTextColor,
-                  ),
-                  selectedTextStyle: TextStyle(
-                    color: _bestForegroundFor(branding.selectedDayColor),
-                    fontWeight: FontWeight.w800,
-                  ),
-                  todayTextStyle: TextStyle(
-                    color: branding.primaryTextColor,
-                    fontWeight: FontWeight.w800,
+                  todayDecoration: const BoxDecoration(
+                    color: Colors.transparent,
                   ),
                 ),
                 calendarBuilders: CalendarBuilders<ActivityCounts>(
@@ -268,49 +237,44 @@ class CalendarDayCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hasActivities = counts.hasActivities;
     final foreground = isSelected
         ? _bestForegroundFor(branding.selectedDayColor)
         : branding.primaryTextColor;
 
-    return AnimatedContainer(
-      duration: _themeTransition,
-      curve: _themeCurve,
-      margin: EdgeInsets.all(branding.monochrome ? 2 : 4),
-      padding: const EdgeInsets.symmetric(vertical: 4),
+    return Container(
+      margin: const EdgeInsets.all(2),
       decoration: BoxDecoration(
         color: isSelected
             ? branding.selectedDayColor
-            : hasActivities
-                ? branding.markerColor.withValues(
-                    alpha: branding.monochrome ? 0.08 : 0.11,
-                  )
-                : Colors.transparent,
-        borderRadius: branding.cellBorderRadius,
+            : Colors.transparent,
+        borderRadius: BorderRadius.circular(12),
         border: isToday && !isSelected
-            ? Border.all(color: branding.todayColor, width: 1.4)
-            : branding.monochrome && hasActivities
-                ? Border.all(
-                    color: branding.markerColor.withValues(alpha: 0.35),
-                  )
-                : null,
+            ? Border.all(
+                color: branding.todayColor,
+                width: 1.5,
+              )
+            : null,
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            '${day.day}',
-            style: TextStyle(
-              color: foreground,
-              fontWeight: hasActivities || isSelected
-                  ? FontWeight.w800
-                  : FontWeight.w500,
-              fontSize: 13,
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              '${day.day}',
+              style: TextStyle(
+                color: foreground,
+                fontWeight: FontWeight.w700,
+                fontSize: 14,
+              ),
             ),
-          ),
-          const SizedBox(height: 3),
-          CalendarIndicators(counts: counts),
-        ],
+
+            const SizedBox(height: 3),
+
+            CalendarIndicators(
+              counts: counts,
+            ),
+          ],
+        ),
       ),
     );
   }

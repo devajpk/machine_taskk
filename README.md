@@ -1,533 +1,474 @@
-# Multi Profile Workspace Engine
+# 🚀 Multi Profile Workspace Engine
 
-A production-ready Flutter application demonstrating **Clean Architecture**, **Offline-First Design**, **State Management with BLoC**, **Firebase Analytics**, and **Enterprise-Grade Development Practices**.
+A production-ready Flutter application demonstrating **Clean Architecture**, **Offline-First Architecture**, **BLoC State Management**, **Hive Local Storage**, **Firebase Analytics**, **Firebase Crashlytics**, and **Enterprise Flutter Development Practices**.
+
+The application provides multiple isolated workspace profiles where users can manage profile-specific Todos while viewing shared Global Events. A unified Calendar Dashboard combines both local and remote activities into a single timeline with activity indicators and daily filtering.
 
 ---
 
-## Phase 2
+# 📱 Demo
 
-### Features
+## Screens
 
-- Calendar indicators
-- Date filtering
-- Default Todo date
-- Multi-profile synchronization
-- Empty states
-- UI improvements
-- Performance optimizations
+* Dashboard
+* Profile Switcher
+* Todo Manager
+* Calendar Dashboard
+* Global Events Feed
+* Event Details
 
-### UI Bugs Fixed
 
-- Fixed calendar mock data by connecting the dashboard calendar to real local todos and global events.
-- Fixed stale calendar state after returning from Todo and Global Events screens.
-- Fixed profile switching flicker by keeping the previous profile visible while the new profile is saved.
-- Fixed empty calendar white space with a polished no-activities state.
-- Fixed bare Global Events empty list text with a structured empty state.
-- Fixed keyboard overlap risk in the Todo input by using SafeArea and inset-aware bottom padding.
-- Fixed Todo creation date ambiguity with an explicit default-today date selector.
-- Fixed activity ordering by sorting selected-day todos and events chronologically.
-- Fixed calendar rebuild pressure by moving date filtering and count aggregation out of widgets.
-
-### Calendar Logic
-
-Calendar activity data is coordinated by `CalendarActivityBloc` in the dashboard presentation layer. The bloc loads profile-specific todos from Hive through `TodoRepository` and shared global events through `GlobalEventRepository`.
-
-Dates are normalized with year/month/day values before comparison so time components never affect filtering. `CalendarActivityUseCases` owns `getTodosForDate()`, `getEventsForDate()`, and `getActivityCounts()`; widgets receive already-filtered lists and precomputed counts.
-
-Indicators are calculated once per load as a `Map<DateTime, ActivityCounts>`. Each calendar cell reads its normalized day count and renders a blue Todo badge, a green Global Event badge, or both.
-
-When the profile changes, the dashboard calendar reloads local todos for the new profile while global events remain shared. Returning from Todo or Event flows triggers a lightweight refresh so the filtered list and indicators do not show stale state.
-
-The aggregation pass is O(t + e), where `t` is the number of todos for the active profile and `e` is the number of global events. Selected-day filtering is O(t) for todos and O(e) for events, performed inside the use case/state layer instead of the widget build path.
 
 ---
 
 # ✨ Features
 
-## 1. Local Profiles & Todos
+## 🏢 Multi Workspace Profiles
 
-### Profile Management
+Supports multiple isolated workspace profiles.
 
-* Multiple workspace profiles:
+Available profiles:
 
-  * Personal
-  * Work
-  * Corporate
-  * Creative
-* Easy to extend with additional profiles
-* Instant profile switching
-* Profile-aware user experience
+* Personal
+* Work
+* Corporate
+* Creative
 
-### Todo Management
+Each profile maintains its own:
 
-* Create todos
-* Update todos
-* Mark todos as completed
-* Delete todos
-* Profile-specific todo storage
-* Offline persistence using Hive
-
-### Offline First
-
-* No backend required for todos
-* All data stored locally
-* Fast startup and access
-* Persistent storage across app restarts
-
-### Technologies
-
-* Hive
-* Hive Flutter
-* Flutter Bloc
+* Todo list
+* Dashboard state
+* Calendar activities
+* Analytics tracking
 
 ---
 
-## 2. Global Events Feed
+## 📌 Fixed AppBar & Workspace Navigation
 
-### Remote Data Integration
+The dashboard uses a **fixed (pinned) AppBar** to keep workspace navigation always accessible.
 
-* Fetches events from JSONPlaceholder Photos API
-* Repository-based architecture
-* Clean separation of concerns
+Features include:
 
-### Event Features
+* Fixed AppBar during scrolling
+* Horizontally scrollable workspace selector
+* Smooth profile switching
+* Persistent navigation experience
+* Responsive layout for small screens
 
-* View all events
-* Pull-to-refresh
-* Event details page
-* Cached image loading
-* Read-only event feed
+---
 
-### Event Model
+## ✅ Todo Management
 
-Each event contains:
+Features
 
-* ID
-* Title
-* Description
-* Image URL
-* Event Date
+* Create Todo
+* Update Todo
+* Delete Todo
+* Mark Todo Complete
+* Default Today Date
+* Offline Storage
+* Profile-specific Todos
 
-### Error Handling
+Built using
 
-* Loading states
-* Empty states
-* Retry support
-* Graceful failure handling
+* Hive
+* Flutter Bloc
+* Clean Architecture
 
-### Technologies
+---
+
+## 📅 Calendar Dashboard (Phase 2)
+
+A unified dashboard combining Local Todos and Global Events.
+
+### Calendar Features
+
+* Monthly calendar
+* Previous / Next month navigation
+* Activity indicators
+* Daily filtering
+* Selected day activities
+* Empty state
+* Profile-aware Todo filtering
+* Shared Global Events
+* Smooth UI updates
+
+### Calendar Indicators
+
+Each day displays activity badges.
+
+🔵 Todo
+
+🟢 Global Event
+
+If both exist, both indicators are displayed.
+
+---
+
+## 🌍 Global Events
+
+Global Events are loaded from a remote API.
+
+Features
+
+* Pull to Refresh
+* Cached Images
+* Event Details
+* Retry Support
+* Error Handling
+* Read-only Feed
+
+Built using
 
 * Dio
 * Cached Network Image
-* Flutter Bloc
-* Go Router
 
 ---
 
-## 3. Navigation & Routing
+## 📊 Firebase Analytics
 
-### Implemented Routes
+Custom Analytics Event
 
-| Screen        | Route      |
-| ------------- | ---------- |
-| Dashboard     | /          |
-| Todo Manager  | /todos     |
-| Global Events | /events    |
-| Event Details | /event/:id |
-
-### Features
-
-* Go Router integration
-* Type-safe navigation
-* Deep linking ready
-* Route parameter support
-
-### Technologies
-
-* go_router
-
----
-
-## 4. Security & Networking
-
-### Secure Storage
-
-* Token management using Flutter Secure Storage
-* Persistent secure credentials
-* Protected sensitive information
-
-### Authorization Interceptor
-
-* Automatic Bearer Token injection
-* Centralized request handling
-* Easy authentication extension
-
-### Network Layer
-
-* Dio client
-* Timeout configuration
-* Error mapping
-* Centralized API handling
-
-### Features
-
-* Network connectivity checks
-* Exception mapping
-* Repository abstraction
-* Clean API communication
-
-### Technologies
-
-* Dio
-* Flutter Secure Storage
-* Connectivity Plus
-
----
-
-## 5. Analytics & Crash Reporting
-
-### Firebase Analytics
-
-Custom analytics event tracking implemented.
-
-#### Event Name
-
-```text
+```
 profile_swapped
 ```
 
-#### Trigger
+Triggered whenever the active workspace changes.
 
-Whenever the active workspace profile changes.
+Example
 
-Example:
-
-```text
+```
 Personal → Work
+
 Corporate → Creative
+
 Creative → Personal
 ```
 
-#### Event Parameters
+Parameters
 
 ```json
 {
-  "from_profile": "personal",
-  "to_profile": "work"
+  "from_profile":"personal",
+  "to_profile":"work"
 }
 ```
 
-#### Example Log
+---
 
-```text
-✅ Firebase Analytics Event Sent: corporate -> work
-💡 Logged profile_swapped: corporate -> work
-```
+## 💥 Firebase Crashlytics
 
-### Firebase Crashlytics
+Crashlytics is integrated to capture runtime issues.
 
-Crash reporting service implemented.
+Captures
 
-#### Features
-
-* Global Flutter error handling
-* Platform error handling
-* Error recording service
-* Stub fallback support when Firebase is unavailable
-
-#### Example Log
-
-```text
-💡 Crashlytics recorded error
-```
-
-### Technologies
-
-* firebase_core
-* firebase_analytics
-* firebase_crashlytics
+* Flutter Errors
+* Platform Errors
+* Unhandled Exceptions
 
 ---
 
-## 6. Clean Architecture
+# 🏗 Clean Architecture
 
-The application follows Clean Architecture principles.
-
-```text
-lib/
-├── core/
-│   ├── analytics/
-│   ├── crash_lytics/
-│   ├── config/
-│   ├── exceptions/
-│   ├── failures/
-│   ├── logger/
-│   ├── network/
-│   ├── routing/
-│   ├── security/
-│   └── typedefs/
+```
+lib
 │
-├── features/
-├── ├── dashboard/
-│   ├── profiles/
-│   ├── todos/
-│   └── global_events/
+├── core
+│   ├── analytics
+│   ├── crashlytics
+│   ├── config
+│   ├── exceptions
+│   ├── failures
+│   ├── logger
+│   ├── network
+│   ├── routing
+│   ├── security
+│   └── typedefs
 │
-├── injection/
+├── features
+│   ├── dashboard
+│   ├── profiles
+│   ├── todos
+│   └── global_events
+│
+├── injection
 │
 └── main.dart
 ```
 
-### Layers
+---
 
-#### Domain Layer
+# 🧩 Architecture Layers
+
+## Presentation
+
+* Screens
+* Widgets
+* Bloc
+* UI Components
+
+## Domain
 
 * Entities
 * Repository Contracts
-* Business Rules
+* Use Cases
 
-#### Data Layer
+## Data
 
 * Repository Implementations
 * Remote Data Sources
 * Local Data Sources
 
-#### Presentation Layer
-
-* Screens
-* Widgets
-* BLoC State Management
-
 ---
 
-## 7. Dependency Injection
-
-Service Locator pattern implemented using GetIt.
-
-### Registered Services
-
-* LoggerService
-* AnalyticsService
-* CrashlyticsService
-* NetworkService
-* SecureTokenService
-* GlobalEventService
-* GlobalEventRepository
-
-### Technologies
-
-* get_it
-
----
-
-## 8. State Management
+# 🎯 State Management
 
 Implemented using Flutter Bloc.
 
-### Features
-
-* Predictable state flow
-* Event-driven architecture
-* Easy testing
-* Clear separation of UI and business logic
-
-### Blocs
+Blocs
 
 * ProfileBloc
+* TodoBloc
 * GlobalEventBloc
+* CalendarActivityBloc
 
-### Technologies
+Advantages
 
-* flutter_bloc
-* equatable
+* Predictable State
+* Event-driven Updates
+* Easy Testing
+* Clean Separation of Concerns
+
+---
+
+# 💾 Offline First
+
+Local persistence implemented using Hive.
+
+Benefits
+
+* Works without internet
+* Fast startup
+* Persistent data
+* Profile-specific storage
+
+---
+
+# 🌐 Networking
+
+Networking is implemented using Dio.
+
+Features
+
+* Repository Pattern
+* Request Interceptors
+* Response Interceptors
+* Error Mapping
+* Timeout Configuration
+* Centralized API Layer
+
+Architecture
+
+```
+UI
+
+↓
+
+Bloc
+
+↓
+
+Repository
+
+↓
+
+Data Source
+
+↓
+
+Network Service (Dio)
+```
+
+---
+
+# 🔒 Security
+
+Implemented using Flutter Secure Storage.
+
+Features
+
+* Secure Token Storage
+* Authentication Ready
+* Centralized Authorization Interceptor
+
+---
+
+# 📅 Calendar Filtering Logic
+
+The calendar filtering logic is implemented in the Business Logic layer rather than the UI.
+
+### Workflow
+
+```
+User selects a date
+
+↓
+
+CalendarActivityBloc
+
+↓
+
+CalendarActivityUseCase
+
+↓
+
+TodoRepository
+GlobalEventRepository
+
+↓
+
+Merge Activities
+
+↓
+
+ActivityCounts
+
+↓
+
+Update Calendar UI
+```
+
+### Filtering Rules
+
+* Todos are filtered by the active workspace profile.
+* Global Events remain shared across all profiles.
+* Dates are normalized using Year / Month / Day before comparison.
+* Activity indicators are precomputed into a `Map<DateTime, ActivityCounts>`.
+* Selected-day Todos and Events are merged and sorted chronologically.
+* Calendar automatically refreshes after Todo or Event updates.
+* Business logic is handled outside the widget tree to minimize rebuilds.
+
+---
+
+# 🛠 UI Improvements & Bug Fixes
+
+### Dashboard
+
+* Implemented a fixed (pinned) AppBar.
+* Added a horizontally scrollable workspace profile selector.
+* Improved responsive layout across different screen sizes.
+* Enhanced spacing and alignment throughout the dashboard.
+
+### Calendar
+
+* Connected calendar with real Todo and Global Event data.
+* Added Todo and Event activity indicators.
+* Fixed stale calendar state after returning from other screens.
+* Added chronological activity ordering.
+* Improved calendar refresh behavior.
+* Reduced unnecessary rebuilds.
+* Optimized activity count rendering.
+
+### Profile Switching
+
+* Eliminated profile switching flicker.
+* Preserved previous workspace while loading the next profile.
+* Improved animation and transition smoothness.
+
+### Todo
+
+* Added default Today date.
+* Improved empty states.
+* Enhanced keyboard handling.
+* Better form spacing.
+
+### Global Events
+
+* Added structured empty state.
+* Retry support.
+* Better loading indicators.
+
+---
+
+# ⚡ Performance Optimizations
+
+* Cached activity counts
+* Lightweight Bloc rebuilds
+* Repository abstraction
+* Efficient date normalization
+* Profile-based filtering
+* O(t + e) activity aggregation
+* Optimized calendar updates
+* Reduced unnecessary widget rebuilds
+* Lazy UI rendering
 
 ---
 
 # 📦 Dependencies
 
 ```yaml
-dependencies:
-  flutter_bloc: ^9.1.1
-  equatable: ^2.0.5
-
-  get_it: ^9.2.1
-
-  dio: ^5.2.1
-
-  hive: ^2.2.3
-  hive_flutter: ^1.1.0
-
-  go_router: ^17.3.0
-
-  cached_network_image: ^3.2.4
-
-  flutter_secure_storage: ^10.3.1
-
-  connectivity_plus: ^7.1.1
-
-  logger: ^2.7.0
-
-  uuid: ^4.3.0
-
-  firebase_core: ^4.0.0
-  firebase_analytics: ^12.0.0
-  firebase_crashlytics: ^5.0.0
+flutter_bloc
+equatable
+dio
+hive
+hive_flutter
+cached_network_image
+go_router
+get_it
+flutter_secure_storage
+connectivity_plus
+firebase_core
+firebase_analytics
+firebase_crashlytics
+logger
+uuid
 ```
 
 ---
 
 # 🚀 Getting Started
 
-## Prerequisites
-
-* Flutter 3.0+
-* Dart 3.0+
-
-Verify installation:
-
-```bash
-flutter doctor
-```
-
----
-
-## Installation
-
-Clone the repository:
+Clone the repository
 
 ```bash
 git clone <repository-url>
 ```
 
-Navigate to project:
+Move into the project
 
 ```bash
 cd multi_profile_workspace_engine
 ```
 
-Install packages:
+Install packages
 
 ```bash
 flutter pub get
 ```
 
-Run the app:
+Run the application
 
 ```bash
 flutter run
 ```
 
----
+Build Release APK
 
-# 📱 Application Flow
-
-### Dashboard
-
-* Profile Switcher
-* Quick Navigation
-* Workspace Overview
-
-### Profile Switching
-
-```text
-Personal
-   ↓
-Work
-   ↓
-Corporate
-   ↓
-Creative
-```
-
-Each profile maintains its own isolated data.
-
-### Todos
-
-* Add Todo
-* Complete Todo
-* Delete Todo
-* Persistent Storage
-
-### Events
-
-* View Events
-* Event Details
-* Cached Images
-* Pull To Refresh
-
----
-
-# 🔐 Security Features
-
-### Secure Storage
-
-Sensitive information stored using:
-
-```text
-flutter_secure_storage
-```
-
-### Authorization
-
-Automatic token injection using:
-
-```text
-AuthInterceptor
-```
-
-### Error Handling
-
-* Domain Exceptions
-* Network Exceptions
-* User-Friendly Messages
-
----
-
-# 🏗️ Architecture Highlights
-
-### Repository Pattern
-
-```dart
-abstract class Repository {
-  Future<T> getData();
-}
-```
-
-### Dependency Injection
-
-```dart
-final getIt = GetIt.instance;
-```
-
-### Bloc Pattern
-
-```dart
-class FeatureBloc extends Bloc<Event, State> {}
-```
-
-### Offline First Design
-
-```text
-UI
- ↓
-Bloc
- ↓
-Repository
- ↓
-Hive Storage
+```bash
+flutter build apk --release
 ```
 
 ---
 
 # 🧪 Testing
 
-Run all tests:
+Run all tests
 
 ```bash
 flutter test
 ```
 
-Run with coverage:
+Run tests with coverage
 
 ```bash
 flutter test --coverage
@@ -535,24 +476,61 @@ flutter test --coverage
 
 ---
 
-# 📈 Analytics Verification
+# 📱 Application Flow
 
-Successful analytics logging:
+```
+Launch App
 
-```text
-✅ Firebase Analytics Event Sent: corporate -> work
-💡 Logged profile_swapped: corporate -> work
+↓
+
+Select Workspace
+
+↓
+
+Dashboard
+
+↓
+
+Calendar Dashboard
+
+↓
+
+Select Date
+
+↓
+
+View Filtered Todos & Global Events
+
+↓
+
+Manage Todo
+
+↓
+
+Refresh Calendar Automatically
 ```
 
 ---
 
-# 🛠️ Crashlytics Verification
+# 📊 Project Highlights
 
-Successful crash logging:
-
-```text
-💡 Crashlytics recorded error
-```
+* ✅ Clean Architecture
+* ✅ Flutter Bloc State Management
+* ✅ Offline First
+* ✅ Hive Local Database
+* ✅ Dio Networking
+* ✅ Repository Pattern
+* ✅ GetIt Dependency Injection
+* ✅ Firebase Analytics
+* ✅ Firebase Crashlytics
+* ✅ Unified Calendar Dashboard
+* ✅ Activity Indicators
+* ✅ Multi Profile Support
+* ✅ Profile Isolation
+* ✅ Fixed AppBar
+* ✅ Horizontally Scrollable Profile Switcher
+* ✅ Responsive UI
+* ✅ Enterprise Project Structure
 
 ---
 
@@ -560,22 +538,17 @@ Successful crash logging:
 
 * Flutter
 * Dart
-* BLoC
+* Flutter Bloc
 * Hive
 * Dio
-* Go Router
 * GetIt
+* Go Router
+* Cached Network Image
 * Firebase Analytics
 * Firebase Crashlytics
-* Clean Architecture
 
 ---
-Networking is implemented using Dio with custom request/response interceptors for logging, authentication and centralized error handling.
 
-A NetworkService abstraction sits on top of Dio and is consumed by repositories through data sources.
+# 📄 License
 
-The architecture is Retrofit-ready, but Retrofit was not introduced because the project currently exposes only a small API surface and manual service implementations kept the networking layer lightweight.
-
-# License
-
-This project is intended for technical assessment and demonstration purposes.
+This project was developed as part of a Flutter technical assessment to demonstrate Clean Architecture, scalable state management, offline-first design, and enterprise-level Flutter development practices.
