@@ -3,8 +3,10 @@ import 'package:machine_taskk/features/dashboard/presentation/widget/quick_actio
 import 'package:machine_taskk/features/dashboard/presentation/widget/trait_bill_widget.dart';
 import 'package:machine_taskk/features/profiles/domain/entities/workspace_profile.dart';
 import 'package:machine_taskk/features/profiles/presentation/widgets/profile_branding.dart';
+
 const _themeTransition = Duration(milliseconds: 280);
 const _themeCurve = Curves.easeOutCubic;
+
 class ProfileHeroCard extends StatelessWidget {
   final WorkspaceProfile profile;
   final ProfileBranding branding;
@@ -70,11 +72,12 @@ class ProfileHeroCard extends StatelessWidget {
                     AnimatedDefaultTextStyle(
                       duration: _themeTransition,
                       curve: _themeCurve,
-                      style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                            color: onHero,
-                            fontWeight: FontWeight.w800,
-                            height: 1.1,
-                          ),
+                      style:
+                          Theme.of(context).textTheme.headlineSmall!.copyWith(
+                                color: onHero,
+                                fontWeight: FontWeight.w800,
+                                height: 1.1,
+                              ),
                       child: Text('${profile.key} Workspace'),
                     ),
                     const SizedBox(height: 4),
@@ -120,6 +123,7 @@ class ProfileHeroCard extends StatelessWidget {
     );
   }
 }
+
 class QuickActionsGrid extends StatelessWidget {
   final ProfileBranding branding;
   final List<QuickAction> actions;
@@ -134,9 +138,8 @@ class QuickActionsGrid extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         final twoColumns = constraints.maxWidth > 480;
-        final itemWidth = twoColumns
-            ? (constraints.maxWidth - 12) / 2
-            : constraints.maxWidth;
+        final itemWidth =
+            twoColumns ? (constraints.maxWidth - 12) / 2 : constraints.maxWidth;
 
         return Wrap(
           spacing: 12,
@@ -239,6 +242,7 @@ class QuickActionCard extends StatelessWidget {
     );
   }
 }
+
 Color _bestForegroundFor(Color color) {
   return color.computeLuminance() > 0.45 ? Colors.black87 : Colors.white;
 }

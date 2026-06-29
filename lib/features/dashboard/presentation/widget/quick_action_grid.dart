@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:machine_taskk/features/dashboard/presentation/widget/quick_action.dart';
 import 'package:machine_taskk/features/profiles/presentation/widgets/profile_branding.dart';
+
 const _themeTransition = Duration(milliseconds: 280);
 const _themeCurve = Curves.easeOutCubic;
+
 class QuickActionsGrid extends StatelessWidget {
   final ProfileBranding branding;
   final List<QuickAction> actions;
@@ -17,9 +19,8 @@ class QuickActionsGrid extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         final twoColumns = constraints.maxWidth > 480;
-        final itemWidth = twoColumns
-            ? (constraints.maxWidth - 12) / 2
-            : constraints.maxWidth;
+        final itemWidth =
+            twoColumns ? (constraints.maxWidth - 12) / 2 : constraints.maxWidth;
 
         return Wrap(
           spacing: 12,

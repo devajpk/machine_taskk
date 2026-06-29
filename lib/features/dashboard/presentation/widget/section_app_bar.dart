@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:machine_taskk/features/profiles/presentation/widgets/profile_branding.dart';
+
 const _themeTransition = Duration(milliseconds: 280);
 const _themeCurve = Curves.easeOutCubic;
+
 class SectionHeader extends StatelessWidget {
   final IconData icon;
   final String label;

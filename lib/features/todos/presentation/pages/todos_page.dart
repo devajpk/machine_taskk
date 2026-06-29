@@ -3,17 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:machine_taskk/features/profiles/domain/entities/workspace_profile.dart';
 import 'package:machine_taskk/features/profiles/presentation/bloc/profile_bloc.dart';
-import 'package:machine_taskk/features/todos/data/repo_imp/todo_repository_impl.dart';
 import 'package:machine_taskk/features/todos/presentation/widget/add_todo_bar.dart';
 import 'package:machine_taskk/features/todos/presentation/widget/colors.dart';
 import 'package:machine_taskk/features/todos/presentation/widget/empty_state.dart';
 import 'package:machine_taskk/features/todos/presentation/widget/error_state.dart';
 import 'package:machine_taskk/features/todos/presentation/widget/header.dart';
 import 'package:machine_taskk/features/todos/presentation/widget/todo_row.dart';
+import 'package:machine_taskk/injection/injection.dart';
+import 'package:machine_taskk/features/todos/domain/repo/todo_repositories.dart';
 import '../../presentation/bloc/todo_bloc.dart';
-
-
-
 
 class TodosPage extends StatelessWidget {
   const TodosPage({super.key});
@@ -26,7 +24,7 @@ class TodosPage extends StatelessWidget {
 
     return BlocProvider(
       create: (_) =>
-          TodoBloc(repository: TodoRepositoryImpl(), profile: profile)
+          TodoBloc(repository: getIt<TodoRepository>(), profile: profile)
             ..add(LoadTodosEvent()),
       child: const _TodosView(),
     );
@@ -39,7 +37,7 @@ class _TodosView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:Palette.background,
+      backgroundColor: Palette.background,
       body: SafeArea(
         child: Column(
           children: [
@@ -94,7 +92,3 @@ class _TodosView extends StatelessWidget {
     );
   }
 }
-
-
-
-

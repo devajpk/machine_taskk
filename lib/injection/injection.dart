@@ -5,6 +5,8 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:machine_taskk/core/analytics/analytics_service.dart';
 import 'package:machine_taskk/core/crash_lytics/crashlytics_service.dart';
 import 'package:machine_taskk/features/global_events/domain/repo/repo.dart';
+import 'package:machine_taskk/features/todos/data/repo_imp/todo_repository_impl.dart';
+import 'package:machine_taskk/features/todos/domain/repo/todo_repositories.dart';
 
 import '../core/logger/logger_service.dart';
 import '../core/network/network_info.dart';
@@ -46,6 +48,7 @@ Future<void> initDependencies() async {
           getIt<NetworkService>(), getIt<NetworkInfo>()));
   getIt.registerLazySingleton<GlobalEventRepository>(
       () => GlobalEventRepositoryImpl(getIt()));
+  getIt.registerLazySingleton<TodoRepository>(() => TodoRepositoryImpl());
   // Analytics
   getIt.registerLazySingleton<AnalyticsService>(
     () => AnalyticsService(

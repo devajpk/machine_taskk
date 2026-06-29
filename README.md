@@ -4,6 +4,44 @@ A production-ready Flutter application demonstrating **Clean Architecture**, **O
 
 ---
 
+## Phase 2
+
+### Features
+
+- Calendar indicators
+- Date filtering
+- Default Todo date
+- Multi-profile synchronization
+- Empty states
+- UI improvements
+- Performance optimizations
+
+### UI Bugs Fixed
+
+- Fixed calendar mock data by connecting the dashboard calendar to real local todos and global events.
+- Fixed stale calendar state after returning from Todo and Global Events screens.
+- Fixed profile switching flicker by keeping the previous profile visible while the new profile is saved.
+- Fixed empty calendar white space with a polished no-activities state.
+- Fixed bare Global Events empty list text with a structured empty state.
+- Fixed keyboard overlap risk in the Todo input by using SafeArea and inset-aware bottom padding.
+- Fixed Todo creation date ambiguity with an explicit default-today date selector.
+- Fixed activity ordering by sorting selected-day todos and events chronologically.
+- Fixed calendar rebuild pressure by moving date filtering and count aggregation out of widgets.
+
+### Calendar Logic
+
+Calendar activity data is coordinated by `CalendarActivityBloc` in the dashboard presentation layer. The bloc loads profile-specific todos from Hive through `TodoRepository` and shared global events through `GlobalEventRepository`.
+
+Dates are normalized with year/month/day values before comparison so time components never affect filtering. `CalendarActivityUseCases` owns `getTodosForDate()`, `getEventsForDate()`, and `getActivityCounts()`; widgets receive already-filtered lists and precomputed counts.
+
+Indicators are calculated once per load as a `Map<DateTime, ActivityCounts>`. Each calendar cell reads its normalized day count and renders a blue Todo badge, a green Global Event badge, or both.
+
+When the profile changes, the dashboard calendar reloads local todos for the new profile while global events remain shared. Returning from Todo or Event flows triggers a lightweight refresh so the filtered list and indicators do not show stale state.
+
+The aggregation pass is O(t + e), where `t` is the number of todos for the active profile and `e` is the number of global events. Selected-day filtering is O(t) for todos and O(e) for events, performed inside the use case/state layer instead of the widget build path.
+
+---
+
 # ✨ Features
 
 ## 1. Local Profiles & Todos

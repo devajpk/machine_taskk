@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:machine_taskk/features/profiles/presentation/widgets/profile_branding.dart';
+
 const _themeTransition = Duration(milliseconds: 280);
 const _themeCurve = Curves.easeOutCubic;
+
 class FeatureBadge extends StatelessWidget {
   final IconData icon;
   final String label;
@@ -42,8 +44,9 @@ class FeatureBadge extends StatelessWidget {
           Text(
             label,
             style: TextStyle(
-              color:
-                  enabled ? branding.primaryTextColor : branding.secondaryTextColor,
+              color: enabled
+                  ? branding.primaryTextColor
+                  : branding.secondaryTextColor,
               fontWeight: enabled ? FontWeight.w700 : FontWeight.w500,
               fontSize: 12.5,
             ),

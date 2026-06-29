@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:machine_taskk/features/dashboard/presentation/widget/round_button.dart';
 import 'package:machine_taskk/features/profiles/presentation/widgets/profile_branding.dart';
+
 const _themeTransition = Duration(milliseconds: 280);
 const _themeCurve = Curves.easeOutCubic;
+
 class CalendarHeader extends StatelessWidget {
   final DateTime focusedDay;
   final ProfileBranding branding;
@@ -83,6 +85,7 @@ class CalendarHeader extends StatelessWidget {
     );
   }
 }
+
 const _monthNames = [
   'January',
   'February',

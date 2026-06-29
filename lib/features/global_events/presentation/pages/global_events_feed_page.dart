@@ -64,9 +64,7 @@ class _GlobalEventsFeedPageState extends State<GlobalEventsFeedPage> {
               final events = state.events;
 
               if (events.isEmpty) {
-                return const Center(
-                  child: Text('No events available'),
-                );
+                return const _GlobalEventsEmptyState();
               }
 
               return RefreshIndicator(
@@ -155,6 +153,45 @@ class _GlobalEventsFeedPageState extends State<GlobalEventsFeedPage> {
 
             return const SizedBox.shrink();
           },
+        ),
+      ),
+    );
+  }
+}
+
+class _GlobalEventsEmptyState extends StatelessWidget {
+  const _GlobalEventsEmptyState();
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.public_off_rounded,
+              size: 56,
+              color: Theme.of(context).colorScheme.outline,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'No events available',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w800,
+                  ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Pull to refresh or check again later for shared workspace events.',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
+            ),
+          ],
         ),
       ),
     );

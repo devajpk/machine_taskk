@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:machine_taskk/features/profiles/domain/entities/workspace_profile.dart';
 import 'package:machine_taskk/features/profiles/presentation/widgets/profile_branding.dart';
+
 const _themeTransition = Duration(milliseconds: 280);
 const _themeCurve = Curves.easeOutCubic;
 
@@ -98,7 +99,7 @@ class AnimatedDashboardAppBar extends StatelessWidget
     );
   }
 }
+
 Color _bestForegroundFor(Color color) {
   return color.computeLuminance() > 0.45 ? Colors.black87 : Colors.white;
 }
-
