@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:machine_taskk/features/dashboard/domain/entities/activity_counts.dart';
@@ -16,6 +18,7 @@ class CalendarActivityBloc
   final TodoRepository todoRepository;
   final GlobalEventRepository globalEventRepository;
   final CalendarActivityUseCases useCases;
+  late final StreamSubscription<WorkspaceProfile> _todoChangesSubscription;
 
   CalendarActivityBloc({
     required this.todoRepository,
@@ -26,6 +29,17 @@ class CalendarActivityBloc
     on<RefreshCalendarActivitiesEvent>(_onRefreshCalendarActivities);
     on<SelectCalendarDayEvent>(_onSelectCalendarDay);
     on<FocusCalendarMonthEvent>(_onFocusCalendarMonth);
+
+    _todoChangesSubscription = todoRepository.todoChanges.listen(
+      _onTodoChanged,
+    );
+  }
+
+  void _onTodoChanged(WorkspaceProfile profile) {
+    final current = state;
+    if (current is CalendarActivityLoaded && current.profile == profile) {
+      add(RefreshCalendarActivitiesEvent(profile));
+    }
   }
 
   Future<void> _onLoadCalendarActivities(
@@ -136,5 +150,11 @@ class CalendarActivityBloc
         ),
       );
     }
+  }
+
+  @override
+  Future<void> close() async {
+    await _todoChangesSubscription.cancel();
+    return super.close();
   }
 }

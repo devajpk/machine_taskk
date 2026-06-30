@@ -2,6 +2,8 @@ import 'package:machine_taskk/features/profiles/domain/entities/workspace_profil
 import 'package:machine_taskk/features/todos/domain/entities/todo.dart';
 
 abstract class TodoRepository {
+  Stream<WorkspaceProfile> get todoChanges;
+
   Future<List<Todo>> getTodos(WorkspaceProfile profile);
   Future<void> addTodo(WorkspaceProfile profile, Todo todo);
   Future<void> deleteTodo(WorkspaceProfile profile, String id);
