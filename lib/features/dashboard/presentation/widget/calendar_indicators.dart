@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:machine_taskk/features/dashboard/domain/entities/activity_counts.dart';
 import 'package:machine_taskk/features/dashboard/presentation/widget/activity_badge.dart';
+import 'package:machine_taskk/features/profiles/presentation/widgets/profile_branding.dart';
 
 class CalendarIndicators extends StatelessWidget {
   final ActivityCounts counts;
+  final ProfileBranding branding;
 
   const CalendarIndicators({
     super.key,
     required this.counts,
+    required this.branding,
   });
 
   @override
@@ -24,15 +27,17 @@ class CalendarIndicators extends StatelessWidget {
         children: [
           ActivityBadge(
             count: counts.todoCount,
-            color: const Color(0xFF2563EB),
+            color: branding.markerColor,
             icon: Icons.check_rounded,
             semanticLabel: 'todos',
+            borderRadius: branding.cellBorderRadius,
           ),
           ActivityBadge(
             count: counts.eventCount,
-            color: const Color(0xFF16A34A),
+            color: branding.markerColor,
             icon: Icons.event_rounded,
             semanticLabel: 'events',
+            borderRadius: branding.cellBorderRadius,
           ),
         ],
       ),

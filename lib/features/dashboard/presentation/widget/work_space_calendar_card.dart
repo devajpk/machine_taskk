@@ -240,11 +240,16 @@ class CalendarDayCell extends StatelessWidget {
     final foreground = isSelected
         ? _bestForegroundFor(branding.selectedDayColor)
         : branding.primaryTextColor;
+    final backgroundColor = isSelected
+        ? branding.selectedDayColor
+        : counts.hasActivities
+            ? branding.markerColor.withValues(alpha: 0.14)
+            : Colors.transparent;
 
     return Container(
       margin: const EdgeInsets.all(2),
       decoration: BoxDecoration(
-        color: isSelected ? branding.selectedDayColor : Colors.transparent,
+        color: backgroundColor,
         borderRadius: branding.cellBorderRadius,
         border: isToday && !isSelected
             ? Border.all(
@@ -268,6 +273,7 @@ class CalendarDayCell extends StatelessWidget {
             const SizedBox(height: 3),
             CalendarIndicators(
               counts: counts,
+              branding: branding,
             ),
           ],
         ),

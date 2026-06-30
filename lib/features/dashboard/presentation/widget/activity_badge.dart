@@ -5,6 +5,7 @@ class ActivityBadge extends StatelessWidget {
   final Color color;
   final IconData icon;
   final String semanticLabel;
+  final BorderRadius borderRadius;
 
   const ActivityBadge({
     super.key,
@@ -12,6 +13,7 @@ class ActivityBadge extends StatelessWidget {
     required this.color,
     required this.icon,
     required this.semanticLabel,
+    this.borderRadius = const BorderRadius.all(Radius.circular(8)),
   });
 
   @override
@@ -25,7 +27,7 @@ class ActivityBadge extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
         decoration: BoxDecoration(
           color: color,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: borderRadius,
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
